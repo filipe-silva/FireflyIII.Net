@@ -27,26 +27,34 @@ using OpenAPIDateConverter = FireflyIIINet.Client.OpenAPIDateConverter;
 namespace FireflyIIINet.Model
 {
     /// <summary>
-    /// InsightGroupEntry
+    /// InsightTransferEntry
     /// </summary>
-    [DataContract(Name = "InsightGroupEntry")]
-    public partial class InsightGroupEntry : IEquatable<InsightGroupEntry>, IValidatableObject
+    [DataContract(Name = "InsightTransferEntry")]
+    public partial class InsightTransferEntry : IEquatable<InsightTransferEntry>, IValidatableObject
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="InsightGroupEntry" /> class.
+        /// Initializes a new instance of the <see cref="InsightTransferEntry" /> class.
         /// </summary>
         /// <param name="id">This ID is a reference to the original object..</param>
         /// <param name="name">This is the name of the object..</param>
-        /// <param name="difference">The amount spent or earned between start date and end date, a number defined as a string, for this object and all asset accounts..</param>
-        /// <param name="differenceFloat">The amount spent or earned between start date and end date, a number as a float, for this object and all asset accounts. May have rounding errors..</param>
+        /// <param name="difference">The total amount transferred between start date and end date, a number defined as a string, for this asset account..</param>
+        /// <param name="differenceFloat">The total amount transferred between start date and end date, a number as a float, for this asset account. May have rounding errors..</param>
+        /// <param name="varIn">The total amount transferred TO this account between start date and end date, a number defined as a string, for this asset account..</param>
+        /// <param name="inFloat">The total amount transferred FROM this account between start date and end date, a number as a float, for this asset account. May have rounding errors..</param>
+        /// <param name="varOut">The total amount transferred FROM this account between start date and end date, a number defined as a string, for this asset account..</param>
+        /// <param name="outFloat">The total amount transferred TO this account between start date and end date, a number as a float, for this asset account. May have rounding errors..</param>
         /// <param name="currencyId">The currency ID of the expenses listed for this account..</param>
         /// <param name="currencyCode">The currency code of the expenses listed for this account..</param>
-        public InsightGroupEntry(string id = default(string), string name = default(string), string difference = default(string), double differenceFloat = default(double), string currencyId = default(string), string currencyCode = default(string))
+        public InsightTransferEntry(string id = default(string), string name = default(string), string difference = default(string), double differenceFloat = default(double), string varIn = default(string), double inFloat = default(double), string varOut = default(string), double outFloat = default(double), string currencyId = default(string), string currencyCode = default(string))
         {
             this.Id = id;
             this.Name = name;
             this.Difference = difference;
             this.DifferenceFloat = differenceFloat;
+            this.VarIn = varIn;
+            this.InFloat = inFloat;
+            this.VarOut = varOut;
+            this.OutFloat = outFloat;
             this.CurrencyId = currencyId;
             this.CurrencyCode = currencyCode;
         }
@@ -68,20 +76,52 @@ namespace FireflyIIINet.Model
         public string Name { get; set; }
 
         /// <summary>
-        /// The amount spent or earned between start date and end date, a number defined as a string, for this object and all asset accounts.
+        /// The total amount transferred between start date and end date, a number defined as a string, for this asset account.
         /// </summary>
-        /// <value>The amount spent or earned between start date and end date, a number defined as a string, for this object and all asset accounts.</value>
+        /// <value>The total amount transferred between start date and end date, a number defined as a string, for this asset account.</value>
         /// <example>-123.45</example>
         [DataMember(Name = "difference", EmitDefaultValue = false)]
         public string Difference { get; set; }
 
         /// <summary>
-        /// The amount spent or earned between start date and end date, a number as a float, for this object and all asset accounts. May have rounding errors.
+        /// The total amount transferred between start date and end date, a number as a float, for this asset account. May have rounding errors.
         /// </summary>
-        /// <value>The amount spent or earned between start date and end date, a number as a float, for this object and all asset accounts. May have rounding errors.</value>
+        /// <value>The total amount transferred between start date and end date, a number as a float, for this asset account. May have rounding errors.</value>
         /// <example>-123.45</example>
         [DataMember(Name = "difference_float", EmitDefaultValue = false)]
         public double DifferenceFloat { get; set; }
+
+        /// <summary>
+        /// The total amount transferred TO this account between start date and end date, a number defined as a string, for this asset account.
+        /// </summary>
+        /// <value>The total amount transferred TO this account between start date and end date, a number defined as a string, for this asset account.</value>
+        /// <example>123.45</example>
+        [DataMember(Name = "in", EmitDefaultValue = false)]
+        public string VarIn { get; set; }
+
+        /// <summary>
+        /// The total amount transferred FROM this account between start date and end date, a number as a float, for this asset account. May have rounding errors.
+        /// </summary>
+        /// <value>The total amount transferred FROM this account between start date and end date, a number as a float, for this asset account. May have rounding errors.</value>
+        /// <example>123.45</example>
+        [DataMember(Name = "in_float", EmitDefaultValue = false)]
+        public double InFloat { get; set; }
+
+        /// <summary>
+        /// The total amount transferred FROM this account between start date and end date, a number defined as a string, for this asset account.
+        /// </summary>
+        /// <value>The total amount transferred FROM this account between start date and end date, a number defined as a string, for this asset account.</value>
+        /// <example>123.45</example>
+        [DataMember(Name = "out", EmitDefaultValue = false)]
+        public string VarOut { get; set; }
+
+        /// <summary>
+        /// The total amount transferred TO this account between start date and end date, a number as a float, for this asset account. May have rounding errors.
+        /// </summary>
+        /// <value>The total amount transferred TO this account between start date and end date, a number as a float, for this asset account. May have rounding errors.</value>
+        /// <example>123.45</example>
+        [DataMember(Name = "out_float", EmitDefaultValue = false)]
+        public double OutFloat { get; set; }
 
         /// <summary>
         /// The currency ID of the expenses listed for this account.
@@ -106,11 +146,15 @@ namespace FireflyIIINet.Model
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append("class InsightGroupEntry {\n");
+            sb.Append("class InsightTransferEntry {\n");
             sb.Append("  Id: ").Append(Id).Append("\n");
             sb.Append("  Name: ").Append(Name).Append("\n");
             sb.Append("  Difference: ").Append(Difference).Append("\n");
             sb.Append("  DifferenceFloat: ").Append(DifferenceFloat).Append("\n");
+            sb.Append("  VarIn: ").Append(VarIn).Append("\n");
+            sb.Append("  InFloat: ").Append(InFloat).Append("\n");
+            sb.Append("  VarOut: ").Append(VarOut).Append("\n");
+            sb.Append("  OutFloat: ").Append(OutFloat).Append("\n");
             sb.Append("  CurrencyId: ").Append(CurrencyId).Append("\n");
             sb.Append("  CurrencyCode: ").Append(CurrencyCode).Append("\n");
             sb.Append("}\n");
@@ -133,15 +177,15 @@ namespace FireflyIIINet.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as InsightGroupEntry);
+            return this.Equals(input as InsightTransferEntry);
         }
 
         /// <summary>
-        /// Returns true if InsightGroupEntry instances are equal
+        /// Returns true if InsightTransferEntry instances are equal
         /// </summary>
-        /// <param name="input">Instance of InsightGroupEntry to be compared</param>
+        /// <param name="input">Instance of InsightTransferEntry to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(InsightGroupEntry input)
+        public bool Equals(InsightTransferEntry input)
         {
             if (input == null)
             {
@@ -166,6 +210,24 @@ namespace FireflyIIINet.Model
                 (
                     this.DifferenceFloat == input.DifferenceFloat ||
                     this.DifferenceFloat.Equals(input.DifferenceFloat)
+                ) && 
+                (
+                    this.VarIn == input.VarIn ||
+                    (this.VarIn != null &&
+                    this.VarIn.Equals(input.VarIn))
+                ) && 
+                (
+                    this.InFloat == input.InFloat ||
+                    this.InFloat.Equals(input.InFloat)
+                ) && 
+                (
+                    this.VarOut == input.VarOut ||
+                    (this.VarOut != null &&
+                    this.VarOut.Equals(input.VarOut))
+                ) && 
+                (
+                    this.OutFloat == input.OutFloat ||
+                    this.OutFloat.Equals(input.OutFloat)
                 ) && 
                 (
                     this.CurrencyId == input.CurrencyId ||
@@ -201,6 +263,16 @@ namespace FireflyIIINet.Model
                     hashCode = (hashCode * 59) + this.Difference.GetHashCode();
                 }
                 hashCode = (hashCode * 59) + this.DifferenceFloat.GetHashCode();
+                if (this.VarIn != null)
+                {
+                    hashCode = (hashCode * 59) + this.VarIn.GetHashCode();
+                }
+                hashCode = (hashCode * 59) + this.InFloat.GetHashCode();
+                if (this.VarOut != null)
+                {
+                    hashCode = (hashCode * 59) + this.VarOut.GetHashCode();
+                }
+                hashCode = (hashCode * 59) + this.OutFloat.GetHashCode();
                 if (this.CurrencyId != null)
                 {
                     hashCode = (hashCode * 59) + this.CurrencyId.GetHashCode();
