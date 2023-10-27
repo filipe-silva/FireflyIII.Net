@@ -27,40 +27,46 @@ using OpenAPIDateConverter = FireflyIIINet.Client.OpenAPIDateConverter;
 namespace FireflyIIINet.Model
 {
     /// <summary>
-    /// Defines TransactionTypeProperty
+    /// Defines PeriodProperty
     /// </summary>
     [JsonConverter(typeof(StringEnumConverter))]
-    public enum TransactionTypeProperty
+    public enum PeriodProperty
     {
         /// <summary>
-        /// Enum Withdrawal for value: withdrawal
+        /// Enum _1D for value: 1D
         /// </summary>
-        [EnumMember(Value = "withdrawal")]
-        Withdrawal = 1,
+        [EnumMember(Value = "1D")]
+        _1D = 1,
 
         /// <summary>
-        /// Enum Deposit for value: deposit
+        /// Enum _1W for value: 1W
         /// </summary>
-        [EnumMember(Value = "deposit")]
-        Deposit = 2,
+        [EnumMember(Value = "1W")]
+        _1W = 2,
 
         /// <summary>
-        /// Enum Transfer for value: transfer
+        /// Enum _1M for value: 1M
         /// </summary>
-        [EnumMember(Value = "transfer")]
-        Transfer = 3,
+        [EnumMember(Value = "1M")]
+        _1M = 3,
 
         /// <summary>
-        /// Enum Reconciliation for value: reconciliation
+        /// Enum _3M for value: 3M
         /// </summary>
-        [EnumMember(Value = "reconciliation")]
-        Reconciliation = 4,
+        [EnumMember(Value = "3M")]
+        _3M = 4,
 
         /// <summary>
-        /// Enum OpeningBalance for value: opening balance
+        /// Enum _6M for value: 6M
         /// </summary>
-        [EnumMember(Value = "opening balance")]
-        OpeningBalance = 5
+        [EnumMember(Value = "6M")]
+        _6M = 5,
+
+        /// <summary>
+        /// Enum _1Y for value: 1Y
+        /// </summary>
+        [EnumMember(Value = "1Y")]
+        _1Y = 6
     }
 
 }
