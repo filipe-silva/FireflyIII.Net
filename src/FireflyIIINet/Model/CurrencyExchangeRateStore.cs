@@ -1,7 +1,7 @@
 /*
  * Firefly III API v6.2.1
  *
- * This is the documentation of the Firefly III API. You can find accompanying documentation on the website of Firefly III itself (see below). Please report any bugs or issues. You may use the \"Authorize\" button to try the API below. This file was last generated on 2025-02-02T08:46:44+00:00 
+ * This is the documentation of the Firefly III API. You can find accompanying documentation on the website of Firefly III itself (see below). Please report any bugs or issues. You may use the \"Authorize\" button to try the API below. This file was last generated on 2025-02-02T08:46:44+00:00
  *
  * The version of the OpenAPI document: 6.2.1
  * Contact: james@firefly-iii.org
@@ -26,30 +26,49 @@ using OpenAPIDateConverter = FireflyIIINet.Client.OpenAPIDateConverter;
 namespace FireflyIIINet.Model
 {
     /// <summary>
-    /// CurrencyExchangeRateUpdate
+    /// CurrencyExchangeRateStore
     /// </summary>
-    [DataContract(Name = "CurrencyExchangeRateUpdate")]
-    public partial class CurrencyExchangeRateUpdate : IEquatable<CurrencyExchangeRateUpdate>, IValidatableObject
+    /// <remarks>
+    /// The 6.2.1 spec references this schema from POST /v1/exchange-rates but defines it under a
+    /// duplicated &quot;CurrencyExchangeRateUpdate&quot; key (an upstream typo); this class carries the
+    /// intended store shape (date, rate, from, to — all required).
+    /// </remarks>
+    [DataContract(Name = "CurrencyExchangeRateStore")]
+    public partial class CurrencyExchangeRateStore : IEquatable<CurrencyExchangeRateStore>, IValidatableObject
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="CurrencyExchangeRateUpdate" /> class.
+        /// Initializes a new instance of the <see cref="CurrencyExchangeRateStore" /> class.
         /// </summary>
         [JsonConstructorAttribute]
-        protected CurrencyExchangeRateUpdate() { }
+        protected CurrencyExchangeRateStore() { }
         /// <summary>
-        /// Initializes a new instance of the <see cref="CurrencyExchangeRateUpdate" /> class.
+        /// Initializes a new instance of the <see cref="CurrencyExchangeRateStore" /> class.
         /// </summary>
         /// <param name="date">The date to which the exchange rate is applicable. (required).</param>
         /// <param name="rate">The exchange rate from the base currency to the destination currency. (required).</param>
-        public CurrencyExchangeRateUpdate(DateTime? date = default(DateTime?), string rate = default(string))
+        /// <param name="from">The base currency code. (required).</param>
+        /// <param name="to">The destination currency code. (required).</param>
+        public CurrencyExchangeRateStore(DateTime? date = default(DateTime?), string rate = default(string), string from = default(string), string to = default(string))
         {
             Date = date ?? default(DateTime);
             // to ensure "rate" is required (not null)
             if (rate == null)
             {
-                throw new ArgumentNullException("rate is a required property for CurrencyExchangeRateUpdate and cannot be null");
+                throw new ArgumentNullException("rate is a required property for CurrencyExchangeRateStore and cannot be null");
             }
             Rate = rate;
+            // to ensure "from" is required (not null)
+            if (from == null)
+            {
+                throw new ArgumentNullException("from is a required property for CurrencyExchangeRateStore and cannot be null");
+            }
+            From = from;
+            // to ensure "to" is required (not null)
+            if (to == null)
+            {
+                throw new ArgumentNullException("to is a required property for CurrencyExchangeRateStore and cannot be null");
+            }
+            To = to;
         }
 
         /// <summary>
@@ -72,15 +91,35 @@ namespace FireflyIIINet.Model
         public string Rate { get; set; }
 
         /// <summary>
+        /// The base currency code.
+        /// </summary>
+        /// <value>The base currency code.</value>
+        /// <example>USD</example>
+        [DataMember(Name = "from", IsRequired = true, EmitDefaultValue = true)]
+        [JsonPropertyName("from")]
+        public string From { get; set; }
+
+        /// <summary>
+        /// The destination currency code.
+        /// </summary>
+        /// <value>The destination currency code.</value>
+        /// <example>EUR</example>
+        [DataMember(Name = "to", IsRequired = true, EmitDefaultValue = true)]
+        [JsonPropertyName("to")]
+        public string To { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append("class CurrencyExchangeRateUpdate {\n");
+            sb.Append("class CurrencyExchangeRateStore {\n");
             sb.Append("  Date: ").Append(Date).Append("\n");
             sb.Append("  Rate: ").Append(Rate).Append("\n");
+            sb.Append("  From: ").Append(From).Append("\n");
+            sb.Append("  To: ").Append(To).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -101,28 +140,36 @@ namespace FireflyIIINet.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return Equals(input as CurrencyExchangeRateUpdate);
+            return Equals(input as CurrencyExchangeRateStore);
         }
 
         /// <summary>
-        /// Returns true if CurrencyExchangeRateUpdate instances are equal
+        /// Returns true if CurrencyExchangeRateStore instances are equal
         /// </summary>
-        /// <param name="input">Instance of CurrencyExchangeRateUpdate to be compared</param>
+        /// <param name="input">Instance of CurrencyExchangeRateStore to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(CurrencyExchangeRateUpdate input)
+        public bool Equals(CurrencyExchangeRateStore input)
         {
             if (input == null)
             {
                 return false;
             }
-            return 
+            return
                 (
                     Date == input.Date ||
 					Date.Equals(input.Date)
-                ) && 
+                ) &&
                 (
                     Rate == input.Rate ||
 					Rate.Equals(input.Rate)
+                ) &&
+                (
+                    From == input.From ||
+					From.Equals(input.From)
+                ) &&
+                (
+                    To == input.To ||
+					To.Equals(input.To)
                 );
         }
 
@@ -137,6 +184,8 @@ namespace FireflyIIINet.Model
                 int hashCode = 41;
 				hashCode = (hashCode * 59) + Date.GetHashCode();
 				hashCode = (hashCode * 59) + Rate.GetHashCode();
+				hashCode = (hashCode * 59) + From.GetHashCode();
+				hashCode = (hashCode * 59) + To.GetHashCode();
                 return hashCode;
             }
         }
